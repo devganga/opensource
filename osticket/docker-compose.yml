@@ -1,0 +1,32 @@
+services:
+  osticket:
+    image: campbellsoftwaresolutions/osticket:latest
+    container_name: osticket
+    ports:
+      - "8080:80"
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_DATABASE=osticket
+      - MYSQL_USER=osticket
+      - MYSQL_PASSWORD=osticket123
+    depends_on:
+      - mysql
+    volumes:
+      - osticket_data:/var/www/html
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:5.7
+    container_name: osticket_mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root123
+      - MYSQL_DATABASE=osticket
+      - MYSQL_USER=osticket
+      - MYSQL_PASSWORD=osticket123
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: unless-stopped
+
+volumes:
+  osticket_data:
+  mysql_data:

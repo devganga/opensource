@@ -9,7 +9,7 @@ services:
       MYSQL_USER: wikiuser
       MYSQL_PASSWORD: wikipassword
     volumes:
-      - db_data:/var/lib/mysql
+      - mariadb_data:/var/lib/mysql
 
   mediawiki:
     image: mediawiki:latest
@@ -29,5 +29,5 @@ services:
       - mediawiki_data:/var/www/html
 
 volumes:
-  db_data:
+  mariadb_data:
   mediawiki_data:

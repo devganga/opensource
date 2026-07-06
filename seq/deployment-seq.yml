@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: seq-deployment
+  labels:
+    app: seq
+spec:
+  selector:
+    matchLabels:
+      app: seq
+  template:
+    metadata:
+      labels:
+        app: seq
+    spec:
+      containers:
+      - name: seq
+        image: datalust/seq:latest
+        ports:
+        - containerPort: 80
+        env:
+          - name: ACCEPT_EULA
+            value: "Y"
+          - name: SEQ_FIRSTRUN_ADMINPASSWORD
+            value: "MyStrongPassword"
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+          limits:
+            cpu: "1"
+            memory: "1Gi"            
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: seq-service
+spec:
+  selector:
+    app: seq
+  ports:
+    - protocol: TCP
+      port: 5341
+      targetPort: 80
+  #type: LoadBalancer
